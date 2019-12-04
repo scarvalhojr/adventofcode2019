@@ -37,9 +37,12 @@ fn read_input(filename: &str) -> (Path, Path) {
             line.map_err(|err| (num, err.to_string()))
                 .and_then(|value| value.parse().map_err(|err| (num, err)))
         })
-        .collect()
+        .collect::<Result<Vec<Path>, _>>()
     {
-        Ok(input) => input,
+        Ok(input) => {
+            // TODO: Fix this
+            (input[0].clone(), input[1].clone())
+        },
         Err((num, err)) => {
             println!("Failed to parse input file '{}'", filename);
             println!("Line {}: {}", num + 1, err);
