@@ -140,6 +140,21 @@ fn get_addr(mem: &Memory, addr: usize, base: i64, mode: i64) -> Option<usize> {
 mod tests {
     use super::*;
 
+    #[derive(Default)]
+    struct TestIO {
+        output: Vec<i64>,
+    }
+
+    impl InputOutput for TestIO {
+        fn provide_input(&mut self) -> Option<i64> {
+            None
+        }
+        fn take_output(&mut self, value: i64) -> Option<()> {
+            self.output.push(value);
+            Some(())
+        }
+    }
+
     #[test]
     fn samples() {
         let tests = vec![
@@ -160,7 +175,9 @@ mod tests {
             (vec![104, 1125899906842624, 99], vec![1125899906842624]),
         ];
         for (program, output) in tests {
-            assert_eq!(execute(&program, &[]), Some(output));
+            let mut test_io = TestIO::default();
+            assert_eq!(execute(&program, &mut test_io), Some(()));
+            assert_eq!(test_io.output, output);
         }
     }
 
