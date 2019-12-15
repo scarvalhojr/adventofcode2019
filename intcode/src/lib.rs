@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::convert::TryFrom;
+use std::mem::replace;
 
 const ADD_OP: i64 = 1;
 const MULT_OP: i64 = 2;
@@ -136,24 +137,39 @@ fn get_addr(mem: &Memory, addr: usize, base: i64, mode: i64) -> Option<usize> {
     usize::try_from(value).ok()
 }
 
+#[derive(Default)]
+pub struct SimpleInputOutput {
+    input: Vec<i64>,
+    output: Vec<i64>,
+}
+
+impl SimpleInputOutput {
+    pub fn new(input_slice: &[i64]) -> Self {
+        Self {
+            input: input_slice.iter().rev().copied().collect(),
+            output: Vec::new(),
+        }
+    }
+
+    pub fn get_output(&mut self) -> Vec<i64> {
+        replace(&mut self.output, Vec::new())
+    }
+}
+
+impl InputOutput for SimpleInputOutput {
+    fn provide_input(&mut self) -> Option<i64> {
+        self.input.pop()
+    }
+
+    fn take_output(&mut self, value: i64) -> Option<()> {
+        self.output.push(value);
+        Some(())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[derive(Default)]
-    struct TestIO {
-        output: Vec<i64>,
-    }
-
-    impl InputOutput for TestIO {
-        fn provide_input(&mut self) -> Option<i64> {
-            None
-        }
-        fn take_output(&mut self, value: i64) -> Option<()> {
-            self.output.push(value);
-            Some(())
-        }
-    }
 
     #[test]
     fn samples() {
@@ -175,7 +191,7 @@ mod tests {
             (vec![104, 1125899906842624, 99], vec![1125899906842624]),
         ];
         for (program, output) in tests {
-            let mut test_io = TestIO::default();
+            let mut test_io = SimpleInputOutput::default();
             assert_eq!(execute(&program, &mut test_io), Some(()));
             assert_eq!(test_io.output, output);
         }

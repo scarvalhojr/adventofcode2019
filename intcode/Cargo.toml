@@ -1,10 +1,8 @@
 [package]
-name = "day11"
-description = "Advent of Code 2019 - Day 11"
+name = "intcode"
+description = "Advent of Code 2019 - Day 13"
 version = "0.1.0"
 authors = ["Sergio de Carvalho <scarvalhojr@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-clap = "2.33"
-intcode = { path = "../intcode" }

@@ -1,5 +1,3 @@
-mod intcode;
-
 use intcode::{execute, InputOutput};
 use std::collections::HashMap;
 use std::convert::TryFrom;
