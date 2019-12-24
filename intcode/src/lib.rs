@@ -151,6 +151,10 @@ impl SimpleInputOutput {
         }
     }
 
+    pub fn add_input(&mut self, input_slice: &[i64]) {
+        self.input.extend(input_slice.iter().rev());
+    }
+
     pub fn get_output(&mut self) -> Vec<i64> {
         replace(&mut self.output, Vec::new())
     }
