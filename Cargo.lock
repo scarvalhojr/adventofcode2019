@@ -128,12 +128,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "day23"
+version = "0.1.0"
+dependencies = [
+ "clap 2.33.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "intcode2 0.1.0",
+]
+
+[[package]]
 name = "either"
 version = "1.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "intcode"
+version = "0.1.0"
+
+[[package]]
+name = "intcode2"
 version = "0.1.0"
 
 [[package]]
