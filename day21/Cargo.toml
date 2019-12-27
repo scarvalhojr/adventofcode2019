@@ -1,0 +1,10 @@
+[package]
+name = "day21"
+description = "Advent of Code 2019 - Day 21"
+version = "0.1.0"
+authors = ["Sergio de Carvalho <scarvalhojr@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+clap = "2.33"
+intcode2 = { path = "../intcode2" }
